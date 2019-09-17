@@ -4,8 +4,9 @@ import com.eugene.common.annotation.EnableFilters;
 import com.eugene.jwttoken.annotation.EnablePropertyClass;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-@SpringBootApplication
+@SpringBootApplication(exclude= {DataSourceAutoConfiguration.class})
 @EnableFilters
 @EnablePropertyClass
 public class JwtTokenApplication {

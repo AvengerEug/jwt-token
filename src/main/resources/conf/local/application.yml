@@ -12,18 +12,3 @@ jwt:
     # 24*60*60*15
     expiration: 1296000
   secret: eugene
-
-  spring:
-    datasource:
-      url: jdbc:mysql://127.0.0.1:3306/order_flow?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true
-      username: root
-      password:
-      driverClassName: com.mysql.jdbc.Driver
-
-  mybatis:
-    mapperLocations: classpath*:mapper/*Mapper.xml
-    typeAliasesPackage: com.eugene.sumarry.model
-    typeHandlersPackage: com.eugene.sumarry.dao.mybatis.typehandler
-    configuration:
-      cacheEnabled: true
-      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
