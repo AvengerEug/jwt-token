@@ -1,7 +1,6 @@
 package com.eugene.jwttoken.controller;
 
-import com.eugene.common.peroperty.JwtProperty;
-import com.eugene.common.utils.ContextUtil;
+import com.eugene.common.web.http.Message;
 import com.eugene.jwttoken.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,21 +10,27 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @Autowired
-    private JwtProperty jwtProperty;
-
-    @Autowired
     private UserService userService;
 
-    @GetMapping(value = "/test")
-    public String test() {
-        System.out.println("请求query参数: " + ContextUtil.getHttpServletRequest().getParameter("heihei"));
-        return "Hello jwttoken";
+    @PostMapping(value = "/login")
+    public Message login(@RequestParam String userName,
+                         @RequestParam String password) {
+        String jwtToken = userService.login(userName, password);
+        return Message.ok(jwtToken);
     }
 
-    @PostMapping(value = "/login")
-    public String login(@RequestParam String userName,
-                        @RequestParam String password) {
-        String jwtToken = userService.login(userName, password);
-        return jwtToken;
+    @GetMapping(value = "/fetch-all-info")
+    public Message fetchAllInfo() {
+        return Message.ok(userService.fetchAllInfo());
+    }
+
+    @PutMapping(value = "/{userId}")
+    public Message updateUserById(@PathVariable(value = "userId") Integer userId) {
+        return Message.ok("PathVariable: " + userId);
+    }
+
+    @DeleteMapping(value = "/delete-user")
+    public Message deleteUserById(@RequestParam(value = "userId") Integer userId) {
+        return Message.ok("RequestParam: " + userId);
     }
 }
