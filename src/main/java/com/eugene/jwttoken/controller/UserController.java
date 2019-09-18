@@ -1,5 +1,7 @@
 package com.eugene.jwttoken.controller;
 
+import com.eugene.common.controller.BaseController;
+import com.eugene.common.exception.BusinessException;
 import com.eugene.common.web.http.Message;
 import com.eugene.jwttoken.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,14 +9,14 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/user")
-public class UserController {
+public class UserController extends BaseController {
 
     @Autowired
     private UserService userService;
 
     @PostMapping(value = "/login")
     public Message login(@RequestParam String userName,
-                         @RequestParam String password) {
+                         @RequestParam String password) throws BusinessException {
         String jwtToken = userService.login(userName, password);
         return Message.ok(jwtToken);
     }

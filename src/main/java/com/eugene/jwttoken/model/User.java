@@ -3,8 +3,8 @@ package com.eugene.jwttoken.model;
 public class User {
 
     private Integer userId;
-    private Integer age;
     private String userName;
+    private String password;
 
     public Integer getUserId() {
         return userId;
@@ -14,12 +14,12 @@ public class User {
         this.userId = userId;
     }
 
-    public Integer getAge() {
-        return age;
+    public String getPassword() {
+        return password;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getUserName() {
@@ -33,9 +33,9 @@ public class User {
     public User() {
     }
 
-    public User(Integer userId, Integer age, String userName) {
+    public User(Integer userId, String userName, String password) {
         this.userId = userId;
-        this.age = age;
         this.userName = userName;
+        this.password = password;
     }
 }

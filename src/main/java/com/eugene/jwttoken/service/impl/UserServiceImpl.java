@@ -1,6 +1,8 @@
 package com.eugene.jwttoken.service.impl;
 
+import com.eugene.common.exception.BusinessException;
 import com.eugene.common.peroperty.JwtProperty;
+import com.eugene.jwttoken.dao.UserDao;
 import com.eugene.jwttoken.model.User;
 import com.eugene.jwttoken.service.UserService;
 import io.jsonwebtoken.Jwts;
@@ -23,18 +25,22 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private JwtProperty jwtProperty;
 
+    @Autowired
+    private UserDao userDao;
+
     @Override
-    public String login(String userName, String password) {
+    public String login(String userName, String password) throws BusinessException {
         return loginHandler(userName, password);
     }
 
-    private String loginHandler(String userName, String password) {
-        /*UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userName, password);
-        Authentication authentication = authenticationManager.authenticate(authenticationToken);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userName);*/
+    private String loginHandler(String userName, String password) throws BusinessException {
+        User user = userDao.checkLoginInfo(userName, password);
 
-        return Jwts.builder().claim(userName, password)
+        if (user == null) {
+            throw new BusinessException("用户名或密码错误");
+        }
+
+        return Jwts.builder().claim(userName, user)
                 .setExpiration(new Date(System.currentTimeMillis() + Long.valueOf(jwtProperty.getExpiration()) * 1000))
                 .signWith(SignatureAlgorithm.HS512, jwtProperty.getSecret()).compact();
     }
@@ -43,7 +49,7 @@ public class UserServiceImpl implements UserService {
     public List<User> fetchAllInfo() {
         List<User> users = new ArrayList<User>();
         for (int i = 0; i < 10; i++) {
-            users.add(new User(i, i, UUID.randomUUID().toString()));
+            users.add(new User(i, i + "", UUID.randomUUID().toString()));
         }
 
         return users;
