@@ -21,7 +21,7 @@ jwt:
   secret: eugene
 
 mybatis:
-  mapperLocations: classpath*:mappers/*Mapper.xml
+  mapperLocations: classpath:mappers/*Mapper.xml
   typeAliasesPackage: com.eugene.jwttoken.model
   configuration:
     cacheEnabled: true
